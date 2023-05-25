@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
- * @package \App\Database\Factories
+ *
  * @see \App\Models\User
  */
 class UserFactory extends Factory
