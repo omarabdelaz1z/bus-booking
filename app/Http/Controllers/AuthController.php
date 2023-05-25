@@ -5,23 +5,23 @@ namespace App\Http\Controllers;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Resources\UserTokenResource;
-use App\Models\User;
+use App\Http\Services\AuthService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
+    protected AuthService $authService;
+
+    public function __construct(AuthService $authService)
+    {
+        $this->authService = $authService;
+    }
+
     public function login(LoginRequest $request)
     {
         $validated = $request->validated();
 
-        $user = User::query()->where('email', $validated['email'])->first();
-
-        if (! $user || ! Hash::check($validated['password'], $user->password)) {
-            return response()->json([
-                'message' => 'Invalid credentials',
-            ], 401);
-        }
+        $user = $this->authService->authenticate($validated);
 
         return new UserTokenResource($user);
     }
@@ -30,11 +30,7 @@ class AuthController extends Controller
     {
         $validated = $request->validated();
 
-        $user = User::query()->create([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'password' => bcrypt($validated['password']),
-        ]);
+        $user = $this->authService->register($validated);
 
         return (new UserTokenResource($user))->response()->setStatusCode(201);
     }
