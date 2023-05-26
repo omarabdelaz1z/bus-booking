@@ -15,8 +15,8 @@ return new class extends Migration
             $table->foreignId('seat_id')->constrained();
             $table->foreignId('station_trip_id')->constrained();
 
-            $table->foreignId('from')->constrained('stations');
-            $table->foreignId('to')->constrained('stations');
+            $table->foreignId('source')->constrained('stations');
+            $table->foreignId('destination')->constrained('stations');
 
             $table->timestamps();
         });

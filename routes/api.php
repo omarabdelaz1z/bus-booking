@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\FleetController;
 use App\Http\Resources\UserInfoResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -14,3 +15,10 @@ Route::group(['prefix' => 'auth'], function ($router) {
 Route::middleware('auth:sanctum')->get('/me', function (Request $request) {
     return new UserInfoResource($request->user());
 });
+
+Route::controller(FleetController::class)
+    ->middleware('auth:sanctum')
+    ->group(function () {
+        Route::get('/trips/{trip}', 'getAvailableTripSeats');
+        Route::post('/users/{user}/bookings', 'book');
+    });

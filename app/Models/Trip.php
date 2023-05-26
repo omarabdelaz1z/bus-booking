@@ -30,4 +30,9 @@ class Trip extends Model
     {
         return $this->belongsToMany(Station::class)->withPivot(['sequence']);
     }
+
+    public function bus(): BelongsTo
+    {
+        return $this->belongsTo(Bus::class);
+    }
 }
