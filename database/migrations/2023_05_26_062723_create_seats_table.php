@@ -8,17 +8,17 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('trips', function (Blueprint $table) {
+        Schema::create('seats', function (Blueprint $table) {
             $table->id();
-
-            $table->foreignId('source')->constrained(table: 'stations');
-            $table->foreignId('destination')->constrained(table: 'stations');
             $table->foreignId('bus_id')->constrained();
+            $table->string('number', 10)->unique();
+
+            $table->unique(['bus_id', 'number']);
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('trips');
+        Schema::dropIfExists('seats');
     }
 };

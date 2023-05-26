@@ -11,18 +11,19 @@ class Trip extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'from_station',
-        'to_station',
+        'source',
+        'destination',
+        'bus_id',
     ];
 
     public function source(): BelongsTo
     {
-        return $this->belongsTo(Station::class, 'from_station');
+        return $this->belongsTo(Station::class, 'source');
     }
 
     public function destination(): BelongsTo
     {
-        return $this->belongsTo(Station::class, 'to_station');
+        return $this->belongsTo(Station::class, 'destination');
     }
 
     public function stops(): BelongsToMany
