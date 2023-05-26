@@ -15,5 +15,10 @@ class DatabaseSeeder extends Seeder
     {
         // Create one test user
         User::factory(1)->create();
+
+        $this->call([
+            StationSeeder::class,
+            BusTripSeeder::class,
+        ]);
     }
 }
