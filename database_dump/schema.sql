@@ -21,6 +21,76 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
+-- Name: bookings; Type: TABLE; Schema: public; Owner: kool
+--
+
+CREATE TABLE public.bookings (
+    id bigint NOT NULL,
+    user_id bigint NOT NULL,
+    created_at timestamp(0) without time zone,
+    updated_at timestamp(0) without time zone
+);
+
+
+ALTER TABLE public.bookings OWNER TO kool;
+
+--
+-- Name: bookings_id_seq; Type: SEQUENCE; Schema: public; Owner: kool
+--
+
+CREATE SEQUENCE public.bookings_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.bookings_id_seq OWNER TO kool;
+
+--
+-- Name: bookings_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: kool
+--
+
+ALTER SEQUENCE public.bookings_id_seq OWNED BY public.bookings.id;
+
+
+--
+-- Name: buses; Type: TABLE; Schema: public; Owner: kool
+--
+
+CREATE TABLE public.buses (
+    id bigint NOT NULL,
+    name character varying(20) NOT NULL,
+    capacity integer DEFAULT 12 NOT NULL,
+    occupied_seats integer DEFAULT 0 NOT NULL
+);
+
+
+ALTER TABLE public.buses OWNER TO kool;
+
+--
+-- Name: buses_id_seq; Type: SEQUENCE; Schema: public; Owner: kool
+--
+
+CREATE SEQUENCE public.buses_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.buses_id_seq OWNER TO kool;
+
+--
+-- Name: buses_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: kool
+--
+
+ALTER SEQUENCE public.buses_id_seq OWNED BY public.buses.id;
+
+
+--
 -- Name: migrations; Type: TABLE; Schema: public; Owner: kool
 --
 
@@ -97,6 +167,144 @@ ALTER SEQUENCE public.personal_access_tokens_id_seq OWNED BY public.personal_acc
 
 
 --
+-- Name: seats; Type: TABLE; Schema: public; Owner: kool
+--
+
+CREATE TABLE public.seats (
+    id bigint NOT NULL,
+    bus_id bigint NOT NULL,
+    number character varying(10) NOT NULL
+);
+
+
+ALTER TABLE public.seats OWNER TO kool;
+
+--
+-- Name: seats_id_seq; Type: SEQUENCE; Schema: public; Owner: kool
+--
+
+CREATE SEQUENCE public.seats_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.seats_id_seq OWNER TO kool;
+
+--
+-- Name: seats_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: kool
+--
+
+ALTER SEQUENCE public.seats_id_seq OWNED BY public.seats.id;
+
+
+--
+-- Name: station_trip; Type: TABLE; Schema: public; Owner: kool
+--
+
+CREATE TABLE public.station_trip (
+    id bigint NOT NULL,
+    trip_id bigint NOT NULL,
+    station_id bigint NOT NULL,
+    sequence integer NOT NULL
+);
+
+
+ALTER TABLE public.station_trip OWNER TO kool;
+
+--
+-- Name: station_trip_id_seq; Type: SEQUENCE; Schema: public; Owner: kool
+--
+
+CREATE SEQUENCE public.station_trip_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.station_trip_id_seq OWNER TO kool;
+
+--
+-- Name: station_trip_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: kool
+--
+
+ALTER SEQUENCE public.station_trip_id_seq OWNED BY public.station_trip.id;
+
+
+--
+-- Name: stations; Type: TABLE; Schema: public; Owner: kool
+--
+
+CREATE TABLE public.stations (
+    id smallint NOT NULL,
+    name character varying(20) NOT NULL
+);
+
+
+ALTER TABLE public.stations OWNER TO kool;
+
+--
+-- Name: stations_id_seq; Type: SEQUENCE; Schema: public; Owner: kool
+--
+
+CREATE SEQUENCE public.stations_id_seq
+    AS smallint
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.stations_id_seq OWNER TO kool;
+
+--
+-- Name: stations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: kool
+--
+
+ALTER SEQUENCE public.stations_id_seq OWNED BY public.stations.id;
+
+
+--
+-- Name: trips; Type: TABLE; Schema: public; Owner: kool
+--
+
+CREATE TABLE public.trips (
+    id bigint NOT NULL,
+    source bigint NOT NULL,
+    destination bigint NOT NULL,
+    bus_id bigint NOT NULL
+);
+
+
+ALTER TABLE public.trips OWNER TO kool;
+
+--
+-- Name: trips_id_seq; Type: SEQUENCE; Schema: public; Owner: kool
+--
+
+CREATE SEQUENCE public.trips_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.trips_id_seq OWNER TO kool;
+
+--
+-- Name: trips_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: kool
+--
+
+ALTER SEQUENCE public.trips_id_seq OWNED BY public.trips.id;
+
+
+--
 -- Name: users; Type: TABLE; Schema: public; Owner: kool
 --
 
@@ -132,6 +340,20 @@ ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
 
 
 --
+-- Name: bookings id; Type: DEFAULT; Schema: public; Owner: kool
+--
+
+ALTER TABLE ONLY public.bookings ALTER COLUMN id SET DEFAULT nextval('public.bookings_id_seq'::regclass);
+
+
+--
+-- Name: buses id; Type: DEFAULT; Schema: public; Owner: kool
+--
+
+ALTER TABLE ONLY public.buses ALTER COLUMN id SET DEFAULT nextval('public.buses_id_seq'::regclass);
+
+
+--
 -- Name: migrations id; Type: DEFAULT; Schema: public; Owner: kool
 --
 
@@ -146,10 +368,55 @@ ALTER TABLE ONLY public.personal_access_tokens ALTER COLUMN id SET DEFAULT nextv
 
 
 --
+-- Name: seats id; Type: DEFAULT; Schema: public; Owner: kool
+--
+
+ALTER TABLE ONLY public.seats ALTER COLUMN id SET DEFAULT nextval('public.seats_id_seq'::regclass);
+
+
+--
+-- Name: station_trip id; Type: DEFAULT; Schema: public; Owner: kool
+--
+
+ALTER TABLE ONLY public.station_trip ALTER COLUMN id SET DEFAULT nextval('public.station_trip_id_seq'::regclass);
+
+
+--
+-- Name: stations id; Type: DEFAULT; Schema: public; Owner: kool
+--
+
+ALTER TABLE ONLY public.stations ALTER COLUMN id SET DEFAULT nextval('public.stations_id_seq'::regclass);
+
+
+--
+-- Name: trips id; Type: DEFAULT; Schema: public; Owner: kool
+--
+
+ALTER TABLE ONLY public.trips ALTER COLUMN id SET DEFAULT nextval('public.trips_id_seq'::regclass);
+
+
+--
 -- Name: users id; Type: DEFAULT; Schema: public; Owner: kool
 --
 
 ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
+
+
+--
+-- Data for Name: bookings; Type: TABLE DATA; Schema: public; Owner: kool
+--
+
+COPY public.bookings (id, user_id, created_at, updated_at) FROM stdin;
+\.
+
+
+--
+-- Data for Name: buses; Type: TABLE DATA; Schema: public; Owner: kool
+--
+
+COPY public.buses (id, name, capacity, occupied_seats) FROM stdin;
+1	G1	12	0
+\.
 
 
 --
@@ -159,6 +426,12 @@ ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_
 COPY public.migrations (id, migration, batch) FROM stdin;
 1	2014_10_12_000000_create_users_table	1
 2	2019_12_14_000001_create_personal_access_tokens_table	1
+3	2023_05_25_000000_create_buses_table	1
+4	2023_05_25_201524_create_stations_table	1
+5	2023_05_25_205908_create_trips_table	1
+6	2023_05_26_060413_create_station_trip_table	1
+7	2023_05_26_062723_create_seats_table	1
+8	2023_05_26_065953_create_bookings_table	1
 \.
 
 
@@ -167,6 +440,103 @@ COPY public.migrations (id, migration, batch) FROM stdin;
 --
 
 COPY public.personal_access_tokens (id, tokenable_type, tokenable_id, name, token, abilities, last_used_at, expires_at, created_at, updated_at) FROM stdin;
+1	App\\Models\\User	2	auth_token	57fe91f8f685946200f495b9a433502750f45e306ea346a147ace34a5648f541	["*"]	\N	\N	2023-05-26 14:41:06	2023-05-26 14:41:06
+3	App\\Models\\User	2	auth_token	b057ce042b4f7246ed732df005c73a7b4298dc1d9d0fe5768807832ec3dabbd9	["*"]	2023-05-26 19:34:15	\N	2023-05-26 18:44:55	2023-05-26 19:34:15
+2	App\\Models\\User	2	auth_token	1aad48cd8b5e4db425588f16b7348a2d5735d192802366203f208dff426d1ce0	["*"]	2023-05-26 15:32:06	\N	2023-05-26 14:41:30	2023-05-26 15:32:06
+\.
+
+
+--
+-- Data for Name: seats; Type: TABLE DATA; Schema: public; Owner: kool
+--
+
+COPY public.seats (id, bus_id, number) FROM stdin;
+1	1	S9
+2	1	S3
+3	1	S10
+4	1	S8
+5	1	S6
+6	1	S12
+7	1	S7
+8	1	S5
+9	1	S4
+10	1	S1
+11	1	S11
+12	1	S2
+\.
+
+
+--
+-- Data for Name: station_trip; Type: TABLE DATA; Schema: public; Owner: kool
+--
+
+COPY public.station_trip (id, trip_id, station_id, sequence) FROM stdin;
+1	1	2	1
+2	1	3	2
+3	1	4	3
+4	1	5	4
+5	1	6	5
+6	2	9	1
+7	2	10	2
+8	2	11	3
+9	2	12	4
+10	2	13	5
+11	3	16	1
+12	3	17	2
+13	3	18	3
+14	3	19	4
+15	3	20	5
+16	4	23	1
+17	4	24	2
+18	4	25	3
+19	4	26	4
+\.
+
+
+--
+-- Data for Name: stations; Type: TABLE DATA; Schema: public; Owner: kool
+--
+
+COPY public.stations (id, name) FROM stdin;
+1	cairo
+2	giza
+3	alexandria
+4	dakahlia
+5	red-sea
+6	beheira
+7	fayoum
+8	gharbiya
+9	ismailia
+10	menofia
+11	minya
+12	qaliubiya
+13	new-valley
+14	suez
+15	aswan
+16	assiut
+17	beni-suef
+18	port-said
+19	damietta
+20	sharkia
+21	south-sinai
+22	kafr-sheikh
+23	matrouh
+24	luxor
+25	qena
+26	north-sinai
+27	sohag
+\.
+
+
+--
+-- Data for Name: trips; Type: TABLE DATA; Schema: public; Owner: kool
+--
+
+COPY public.trips (id, source, destination, bus_id) FROM stdin;
+1	1	7	1
+2	8	14	1
+3	15	21	1
+4	22	27	1
 \.
 
 
@@ -175,29 +545,88 @@ COPY public.personal_access_tokens (id, tokenable_type, tokenable_id, name, toke
 --
 
 COPY public.users (id, name, email, password) FROM stdin;
-1	Jaime Hirthe	haley.lesly@example.net	$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi
+1	Ephraim Effertz	zaria.hahn@example.com	$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi
+2	kool	koo2l@example.com	$2y$10$q./iRHUDDQ09.FUHTF6DXuEdvwmFpApwsxtaRwihn/4tnijYc4joq
 \.
+
+
+--
+-- Name: bookings_id_seq; Type: SEQUENCE SET; Schema: public; Owner: kool
+--
+
+SELECT pg_catalog.setval('public.bookings_id_seq', 1, false);
+
+
+--
+-- Name: buses_id_seq; Type: SEQUENCE SET; Schema: public; Owner: kool
+--
+
+SELECT pg_catalog.setval('public.buses_id_seq', 1, true);
 
 
 --
 -- Name: migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: kool
 --
 
-SELECT pg_catalog.setval('public.migrations_id_seq', 2, true);
+SELECT pg_catalog.setval('public.migrations_id_seq', 8, true);
 
 
 --
 -- Name: personal_access_tokens_id_seq; Type: SEQUENCE SET; Schema: public; Owner: kool
 --
 
-SELECT pg_catalog.setval('public.personal_access_tokens_id_seq', 1, false);
+SELECT pg_catalog.setval('public.personal_access_tokens_id_seq', 3, true);
+
+
+--
+-- Name: seats_id_seq; Type: SEQUENCE SET; Schema: public; Owner: kool
+--
+
+SELECT pg_catalog.setval('public.seats_id_seq', 12, true);
+
+
+--
+-- Name: station_trip_id_seq; Type: SEQUENCE SET; Schema: public; Owner: kool
+--
+
+SELECT pg_catalog.setval('public.station_trip_id_seq', 19, true);
+
+
+--
+-- Name: stations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: kool
+--
+
+SELECT pg_catalog.setval('public.stations_id_seq', 27, true);
+
+
+--
+-- Name: trips_id_seq; Type: SEQUENCE SET; Schema: public; Owner: kool
+--
+
+SELECT pg_catalog.setval('public.trips_id_seq', 4, true);
 
 
 --
 -- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: kool
 --
 
-SELECT pg_catalog.setval('public.users_id_seq', 1, true);
+SELECT pg_catalog.setval('public.users_id_seq', 2, true);
+
+
+--
+-- Name: bookings bookings_pkey; Type: CONSTRAINT; Schema: public; Owner: kool
+--
+
+ALTER TABLE ONLY public.bookings
+    ADD CONSTRAINT bookings_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: buses buses_pkey; Type: CONSTRAINT; Schema: public; Owner: kool
+--
+
+ALTER TABLE ONLY public.buses
+    ADD CONSTRAINT buses_pkey PRIMARY KEY (id);
 
 
 --
@@ -225,6 +654,54 @@ ALTER TABLE ONLY public.personal_access_tokens
 
 
 --
+-- Name: seats seats_bus_id_number_unique; Type: CONSTRAINT; Schema: public; Owner: kool
+--
+
+ALTER TABLE ONLY public.seats
+    ADD CONSTRAINT seats_bus_id_number_unique UNIQUE (bus_id, number);
+
+
+--
+-- Name: seats seats_number_unique; Type: CONSTRAINT; Schema: public; Owner: kool
+--
+
+ALTER TABLE ONLY public.seats
+    ADD CONSTRAINT seats_number_unique UNIQUE (number);
+
+
+--
+-- Name: seats seats_pkey; Type: CONSTRAINT; Schema: public; Owner: kool
+--
+
+ALTER TABLE ONLY public.seats
+    ADD CONSTRAINT seats_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: station_trip station_trip_pkey; Type: CONSTRAINT; Schema: public; Owner: kool
+--
+
+ALTER TABLE ONLY public.station_trip
+    ADD CONSTRAINT station_trip_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: stations stations_pkey; Type: CONSTRAINT; Schema: public; Owner: kool
+--
+
+ALTER TABLE ONLY public.stations
+    ADD CONSTRAINT stations_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: trips trips_pkey; Type: CONSTRAINT; Schema: public; Owner: kool
+--
+
+ALTER TABLE ONLY public.trips
+    ADD CONSTRAINT trips_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: users users_email_unique; Type: CONSTRAINT; Schema: public; Owner: kool
 --
 
@@ -245,6 +722,76 @@ ALTER TABLE ONLY public.users
 --
 
 CREATE INDEX personal_access_tokens_tokenable_type_tokenable_id_index ON public.personal_access_tokens USING btree (tokenable_type, tokenable_id);
+
+
+--
+-- Name: station_trip_trip_id_station_id_sequence_index; Type: INDEX; Schema: public; Owner: kool
+--
+
+CREATE INDEX station_trip_trip_id_station_id_sequence_index ON public.station_trip USING btree (trip_id, station_id, sequence);
+
+
+--
+-- Name: stations_name_index; Type: INDEX; Schema: public; Owner: kool
+--
+
+CREATE INDEX stations_name_index ON public.stations USING btree (name);
+
+
+--
+-- Name: bookings bookings_user_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: kool
+--
+
+ALTER TABLE ONLY public.bookings
+    ADD CONSTRAINT bookings_user_id_foreign FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
+-- Name: seats seats_bus_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: kool
+--
+
+ALTER TABLE ONLY public.seats
+    ADD CONSTRAINT seats_bus_id_foreign FOREIGN KEY (bus_id) REFERENCES public.buses(id);
+
+
+--
+-- Name: station_trip station_trip_station_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: kool
+--
+
+ALTER TABLE ONLY public.station_trip
+    ADD CONSTRAINT station_trip_station_id_foreign FOREIGN KEY (station_id) REFERENCES public.stations(id);
+
+
+--
+-- Name: station_trip station_trip_trip_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: kool
+--
+
+ALTER TABLE ONLY public.station_trip
+    ADD CONSTRAINT station_trip_trip_id_foreign FOREIGN KEY (trip_id) REFERENCES public.trips(id);
+
+
+--
+-- Name: trips trips_bus_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: kool
+--
+
+ALTER TABLE ONLY public.trips
+    ADD CONSTRAINT trips_bus_id_foreign FOREIGN KEY (bus_id) REFERENCES public.buses(id);
+
+
+--
+-- Name: trips trips_destination_foreign; Type: FK CONSTRAINT; Schema: public; Owner: kool
+--
+
+ALTER TABLE ONLY public.trips
+    ADD CONSTRAINT trips_destination_foreign FOREIGN KEY (destination) REFERENCES public.stations(id);
+
+
+--
+-- Name: trips trips_source_foreign; Type: FK CONSTRAINT; Schema: public; Owner: kool
+--
+
+ALTER TABLE ONLY public.trips
+    ADD CONSTRAINT trips_source_foreign FOREIGN KEY (source) REFERENCES public.stations(id);
 
 
 --
