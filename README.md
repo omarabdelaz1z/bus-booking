@@ -1,4 +1,8 @@
-## Fleet: A RESTful API for booking bus trips.
+## Fleet: A RESTful API for booking bus trips
+
+The API is minimal and simple on purpose to focus on the main task, refer to the [endpoints](#6-endpoints) section for more details.
+
+Consider to checkout the [missings](#8-missings) section for the missing features.
 
 ### 0. Pre-requisites
 ```
@@ -55,3 +59,12 @@ php artisan test
 
 I used [ERDPlus](https://erdplus.com/) to design the database schema.
 ![erd](./erd.png)
+
+
+### 8. Missings
+
+- User Roles and Permissions. 
+- Admin dashboard and corresponding endpoints for CRUD.
+- Delegate the validation of fleet inquiry to another class/service.
+- Add more tests.
+- Dockerize the application.
