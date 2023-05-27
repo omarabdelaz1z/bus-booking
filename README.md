@@ -2,7 +2,7 @@
 
 The API is minimal and simple on purpose to focus on the main task, refer to the [endpoints](#6-endpoints) section for more details.
 
-Consider to checkout the [missings](#8-missings) section for the missing features.
+Consider to checkout the [todos](#8-to-do) section.
 
 ### About the algorithm: Overlapping
 
