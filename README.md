@@ -4,6 +4,10 @@ The API is minimal and simple on purpose to focus on the main task, refer to the
 
 Consider to checkout the [missings](#8-missings) section for the missing features.
 
+### About the algorithm: Overlapping
+
+![](./overlaps.png)
+
 ### 0. Pre-requisites
 ```
 - PHP 8.2.6
@@ -60,11 +64,13 @@ php artisan test
 I used [ERDPlus](https://erdplus.com/) to design the database schema.
 ![erd](./erd.png)
 
+### 8. To-Do
+**User Roles and Permissions**.
+- Since the API is minimal, I didn't implement roles and permissions.
 
-### 8. Missings
+**Partial Overlap Constraints**
+- The algorithm fails when the requested trip is part of the booked entries not the other way around.
 
-- User Roles and Permissions. 
-- Admin dashboard and corresponding endpoints for CRUD.
-- Delegate the validation of fleet inquiry to another class/service.
-- Add more tests.
-- Dockerize the application.
+**Dockerize The App**
+- I know what docker is in general but I didn't have the time to explore it and implement it.
+
