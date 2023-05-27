@@ -27,6 +27,10 @@ SET default_table_access_method = heap;
 CREATE TABLE public.bookings (
     id bigint NOT NULL,
     user_id bigint NOT NULL,
+    trip_id bigint NOT NULL,
+    seat_id bigint NOT NULL,
+    source bigint NOT NULL,
+    destination bigint NOT NULL,
     created_at timestamp(0) without time zone,
     updated_at timestamp(0) without time zone
 );
@@ -62,8 +66,7 @@ ALTER SEQUENCE public.bookings_id_seq OWNED BY public.bookings.id;
 CREATE TABLE public.buses (
     id bigint NOT NULL,
     name character varying(20) NOT NULL,
-    capacity integer DEFAULT 12 NOT NULL,
-    occupied_seats integer DEFAULT 0 NOT NULL
+    capacity integer DEFAULT 12 NOT NULL
 );
 
 
@@ -406,7 +409,13 @@ ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_
 -- Data for Name: bookings; Type: TABLE DATA; Schema: public; Owner: kool
 --
 
-COPY public.bookings (id, user_id, created_at, updated_at) FROM stdin;
+COPY public.bookings (id, user_id, trip_id, seat_id, source, destination, created_at, updated_at) FROM stdin;
+1	1	1	1	1	3	\N	\N
+2	1	1	1	5	7	\N	\N
+3	1	1	2	1	3	\N	\N
+4	1	1	3	1	3	\N	\N
+5	1	1	4	1	3	\N	\N
+6	1	1	5	1	3	\N	\N
 \.
 
 
@@ -414,8 +423,8 @@ COPY public.bookings (id, user_id, created_at, updated_at) FROM stdin;
 -- Data for Name: buses; Type: TABLE DATA; Schema: public; Owner: kool
 --
 
-COPY public.buses (id, name, capacity, occupied_seats) FROM stdin;
-1	G1	12	0
+COPY public.buses (id, name, capacity) FROM stdin;
+1	G1	12
 \.
 
 
@@ -431,7 +440,7 @@ COPY public.migrations (id, migration, batch) FROM stdin;
 5	2023_05_25_205908_create_trips_table	1
 6	2023_05_26_060413_create_station_trip_table	1
 7	2023_05_26_062723_create_seats_table	1
-8	2023_05_26_065953_create_bookings_table	1
+8	2023_05_26_132747_create_bookings_table	1
 \.
 
 
@@ -440,9 +449,7 @@ COPY public.migrations (id, migration, batch) FROM stdin;
 --
 
 COPY public.personal_access_tokens (id, tokenable_type, tokenable_id, name, token, abilities, last_used_at, expires_at, created_at, updated_at) FROM stdin;
-1	App\\Models\\User	2	auth_token	57fe91f8f685946200f495b9a433502750f45e306ea346a147ace34a5648f541	["*"]	\N	\N	2023-05-26 14:41:06	2023-05-26 14:41:06
-3	App\\Models\\User	2	auth_token	b057ce042b4f7246ed732df005c73a7b4298dc1d9d0fe5768807832ec3dabbd9	["*"]	2023-05-26 19:34:15	\N	2023-05-26 18:44:55	2023-05-26 19:34:15
-2	App\\Models\\User	2	auth_token	1aad48cd8b5e4db425588f16b7348a2d5735d192802366203f208dff426d1ce0	["*"]	2023-05-26 15:32:06	\N	2023-05-26 14:41:30	2023-05-26 15:32:06
+4	App\\Models\\User	2	auth_token	70b3887c3bb50f4f7aa96a33e999a0e36c010339f692f1cde0cc7cdc3f2aa6cb	["*"]	2023-05-27 13:47:09	\N	2023-05-27 13:10:31	2023-05-27 13:47:09
 \.
 
 
@@ -451,18 +458,18 @@ COPY public.personal_access_tokens (id, tokenable_type, tokenable_id, name, toke
 --
 
 COPY public.seats (id, bus_id, number) FROM stdin;
-1	1	S9
-2	1	S3
-3	1	S10
-4	1	S8
-5	1	S6
-6	1	S12
-7	1	S7
-8	1	S5
-9	1	S4
+1	1	S7
+2	1	S9
+3	1	S5
+4	1	S4
+5	1	S2
+6	1	S11
+7	1	S10
+8	1	S6
+9	1	S12
 10	1	S1
-11	1	S11
-12	1	S2
+11	1	S8
+12	1	S3
 \.
 
 
@@ -545,8 +552,8 @@ COPY public.trips (id, source, destination, bus_id) FROM stdin;
 --
 
 COPY public.users (id, name, email, password) FROM stdin;
-1	Ephraim Effertz	zaria.hahn@example.com	$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi
-2	kool	koo2l@example.com	$2y$10$q./iRHUDDQ09.FUHTF6DXuEdvwmFpApwsxtaRwihn/4tnijYc4joq
+1	Rebeka Gleichner	torey.kris@example.net	$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi
+2	kool	koo@example.com	$2y$10$vcMqbLutLZO66tFw52UyPeQtDCfeL.YlNsa4GuJowKQgH/uGGZJAW
 \.
 
 
@@ -554,7 +561,7 @@ COPY public.users (id, name, email, password) FROM stdin;
 -- Name: bookings_id_seq; Type: SEQUENCE SET; Schema: public; Owner: kool
 --
 
-SELECT pg_catalog.setval('public.bookings_id_seq', 1, false);
+SELECT pg_catalog.setval('public.bookings_id_seq', 7, true);
 
 
 --
@@ -575,7 +582,7 @@ SELECT pg_catalog.setval('public.migrations_id_seq', 8, true);
 -- Name: personal_access_tokens_id_seq; Type: SEQUENCE SET; Schema: public; Owner: kool
 --
 
-SELECT pg_catalog.setval('public.personal_access_tokens_id_seq', 3, true);
+SELECT pg_catalog.setval('public.personal_access_tokens_id_seq', 4, true);
 
 
 --
@@ -736,6 +743,38 @@ CREATE INDEX station_trip_trip_id_station_id_sequence_index ON public.station_tr
 --
 
 CREATE INDEX stations_name_index ON public.stations USING btree (name);
+
+
+--
+-- Name: bookings bookings_destination_foreign; Type: FK CONSTRAINT; Schema: public; Owner: kool
+--
+
+ALTER TABLE ONLY public.bookings
+    ADD CONSTRAINT bookings_destination_foreign FOREIGN KEY (destination) REFERENCES public.stations(id);
+
+
+--
+-- Name: bookings bookings_seat_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: kool
+--
+
+ALTER TABLE ONLY public.bookings
+    ADD CONSTRAINT bookings_seat_id_foreign FOREIGN KEY (seat_id) REFERENCES public.seats(id);
+
+
+--
+-- Name: bookings bookings_source_foreign; Type: FK CONSTRAINT; Schema: public; Owner: kool
+--
+
+ALTER TABLE ONLY public.bookings
+    ADD CONSTRAINT bookings_source_foreign FOREIGN KEY (source) REFERENCES public.stations(id);
+
+
+--
+-- Name: bookings bookings_trip_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: kool
+--
+
+ALTER TABLE ONLY public.bookings
+    ADD CONSTRAINT bookings_trip_id_foreign FOREIGN KEY (trip_id) REFERENCES public.trips(id);
 
 
 --

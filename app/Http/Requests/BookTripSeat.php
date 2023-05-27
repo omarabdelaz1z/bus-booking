@@ -21,8 +21,8 @@ class BookTripSeat extends FormRequest
     public function rules(): array
     {
         return [
-            'source' => 'required|exists:stations,id',
-            'destination' => 'required|exists:stations,id',
+            'source' => 'required|string|max:20',
+            'destination' => 'required|string|max:20',
             'trip' => 'required|exists:trips,id',
             'seat' => 'required|exists:seats,id',
         ];

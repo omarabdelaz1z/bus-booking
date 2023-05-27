@@ -12,7 +12,6 @@ return new class extends Migration
             $table->id();
             $table->string('name', 20);
             $table->integer('capacity')->default(12);
-            $table->integer('occupied_seats')->default(0);
         });
     }
 

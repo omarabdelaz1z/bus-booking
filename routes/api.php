@@ -20,5 +20,5 @@ Route::controller(FleetController::class)
     ->middleware('auth:sanctum')
     ->group(function () {
         Route::get('/trips/{trip}', 'getAvailableTripSeats');
-        Route::post('/users/{user}/bookings', 'book');
+        Route::post('/users/{user}/bookings', 'bookTripSeat');
     });
