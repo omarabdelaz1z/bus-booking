@@ -52,4 +52,6 @@ php artisan test
 
 
 ### 7. ERD
+
+I used [ERDPlus](https://erdplus.com/) to design the database schema.
 ![erd](./erd.png)
