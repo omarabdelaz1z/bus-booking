@@ -1,6 +1,6 @@
 ## Fleet: A RESTful API for booking bus trips.
 
-### 0. Prequsites
+### 0. Pre-requisites
 ```
 - PHP 8.2.6
 - Composer 2.5.5
@@ -34,8 +34,12 @@ php artisan migrate --seed
 php artisan serve
 ```
 
-### 5. Endpoints
+### 5. Testing
+```shell
+php artisan test
+```
 
+### 6. Endpoints
 
 | Method | Endpoint | Token  | Description | Payload |
 | ------------- | ------------- | ------------- | ------------- | ------------- |
@@ -44,4 +48,8 @@ php artisan serve
 | DELETE  | /api/auth/logout  | Yes | Logout | |
 | GET  | /api/me  | Yes | Get current user info | | 
 | GET  | /api/trips/{id}?source=&destination | Yes | List available trips | |
-| POST  | /api/users/{id}/bookings | Yes | Book a trip | `{trip_id, seat_number, source, destination}` |
+| POST  | /api/users/{id}/bookings | Yes | Book a trip | `{trip, seat, source, destination}` |
+
+
+### 7. ERD
+![erd](./erd.png)
