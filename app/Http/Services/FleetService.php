@@ -5,6 +5,7 @@ namespace App\Http\Services;
 use App\Exceptions\AlreadyBookedException;
 use App\Exceptions\NonExistentException;
 use App\Exceptions\OutOfOrderException;
+use App\Helpers\Helper;
 use App\Models\Booking;
 use App\Models\Seat;
 use App\Models\Station;
@@ -143,13 +144,13 @@ class FleetService
      * @param  int  $destination sequence number of the requested destination station
      * @return bool
      */
-    public function isSeatAvailable(Seat $seat, int $source, int $destination)
+    private function isSeatAvailable(Seat $seat, int $source, int $destination)
     {
         foreach ($seat->bookings as $booking) {
             $bookingSource = $this->getStationSequenceNumber($booking->source()->first());
             $bookingDestination = $this->getStationSequenceNumber($booking->destination()->first());
 
-            $overlapped = $this->checkOverlapping(
+            $overlapped = Helper::checkOverlapping(
                 $source,
                 $destination,
                 $bookingSource,
@@ -162,28 +163,6 @@ class FleetService
         }
 
         return true;
-    }
-
-    /**
-     * Check if the requested trip overlaps with a booking
-     *
-     * @param int requestedSource
-     * @param int requestedDestination
-     * @param int bookedSource
-     * @param int bookedDestination
-     * @return bool
-     */
-    public function checkOverlapping(int $requestedSource, int $requestedDestination, int $bookedSource, int $bookedDestination)
-    {
-        if ($bookedSource > $requestedSource && $bookedSource < $requestedDestination) {
-            return true;
-        } elseif ($bookedDestination > $requestedSource && $bookedDestination < $requestedDestination) {
-            return true;
-        } elseif ($bookedSource == $requestedSource && $bookedDestination == $requestedDestination) {
-            return true;
-        }
-
-        return false;
     }
 
     /**
