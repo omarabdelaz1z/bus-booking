@@ -416,6 +416,8 @@ COPY public.bookings (id, user_id, trip_id, seat_id, source, destination, create
 4	1	1	3	1	3	\N	\N
 5	1	1	4	1	3	\N	\N
 6	1	1	5	1	3	\N	\N
+8	1	1	4	3	4	\N	\N
+20	2	1	8	1	3	2023-05-27 17:28:46	2023-05-27 17:28:46
 \.
 
 
@@ -449,7 +451,12 @@ COPY public.migrations (id, migration, batch) FROM stdin;
 --
 
 COPY public.personal_access_tokens (id, tokenable_type, tokenable_id, name, token, abilities, last_used_at, expires_at, created_at, updated_at) FROM stdin;
+5	App\\Models\\User	2	auth_token	5d3619dd67ddaff51bae83ab388fc72a922b291ef6ac53d8bb88bcb1534e5186	["*"]	2023-05-27 15:36:30	\N	2023-05-27 14:43:45	2023-05-27 15:36:30
+10	App\\Models\\User	2	auth_token	a7f6cc0326c649dbafdeb8b39e02e8cec898570099f100cde067b3626fb021ed	["*"]	2023-05-27 17:29:02	\N	2023-05-27 17:25:24	2023-05-27 17:29:02
 4	App\\Models\\User	2	auth_token	70b3887c3bb50f4f7aa96a33e999a0e36c010339f692f1cde0cc7cdc3f2aa6cb	["*"]	2023-05-27 13:47:09	\N	2023-05-27 13:10:31	2023-05-27 13:47:09
+6	App\\Models\\User	2	auth_token	6b8ee3277cd436c975fed18239750926d0db00055961b592c242dce1a6e37354	["*"]	2023-05-27 16:41:43	\N	2023-05-27 16:02:16	2023-05-27 16:41:43
+7	App\\Models\\User	2	auth_token	70423df2b84d7ed548183dd95c1af8ae0e226bfacf78a3ab7d2d7d4573209353	["*"]	2023-05-27 17:09:10	\N	2023-05-27 17:06:07	2023-05-27 17:09:10
+8	App\\Models\\User	2	auth_token	c7a655305a61d9208d38e52fe83f9988b0952346075541d4cd85e7a4c082d353	["*"]	\N	\N	2023-05-27 17:24:48	2023-05-27 17:24:48
 \.
 
 
@@ -554,6 +561,7 @@ COPY public.trips (id, source, destination, bus_id) FROM stdin;
 COPY public.users (id, name, email, password) FROM stdin;
 1	Rebeka Gleichner	torey.kris@example.net	$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi
 2	kool	koo@example.com	$2y$10$vcMqbLutLZO66tFw52UyPeQtDCfeL.YlNsa4GuJowKQgH/uGGZJAW
+3	nabil	tharwat@example.com	$2y$10$SchF4Ay1R1ZyIl3V8vjHFO0/ESeBQZtTjyadQS7Uv7ar0L6Zsj6d6
 \.
 
 
@@ -561,7 +569,7 @@ COPY public.users (id, name, email, password) FROM stdin;
 -- Name: bookings_id_seq; Type: SEQUENCE SET; Schema: public; Owner: kool
 --
 
-SELECT pg_catalog.setval('public.bookings_id_seq', 7, true);
+SELECT pg_catalog.setval('public.bookings_id_seq', 20, true);
 
 
 --
@@ -582,7 +590,7 @@ SELECT pg_catalog.setval('public.migrations_id_seq', 8, true);
 -- Name: personal_access_tokens_id_seq; Type: SEQUENCE SET; Schema: public; Owner: kool
 --
 
-SELECT pg_catalog.setval('public.personal_access_tokens_id_seq', 4, true);
+SELECT pg_catalog.setval('public.personal_access_tokens_id_seq', 10, true);
 
 
 --
@@ -617,7 +625,7 @@ SELECT pg_catalog.setval('public.trips_id_seq', 4, true);
 -- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: kool
 --
 
-SELECT pg_catalog.setval('public.users_id_seq', 2, true);
+SELECT pg_catalog.setval('public.users_id_seq', 3, true);
 
 
 --

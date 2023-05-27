@@ -1,0 +1,80 @@
+{
+	"info": {
+		"_postman_id": "8dc19759-85e1-493b-8e0d-f6ec78a22518",
+		"name": "Fleet",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "13647533"
+	},
+	"item": [
+		{
+			"name": "Get Available Trips",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{token}}"
+					}
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/trips/1?source=cairo&destination=alexandria",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"trips",
+						"1"
+					],
+					"query": [
+						{
+							"key": "source",
+							"value": "cairo"
+						},
+						{
+							"key": "destination",
+							"value": "alexandria"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Book Trip Seat",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{token}}"
+					}
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"trip\": 1,\r\n    \"seat\": 8,\r\n    \"source\": \"cairo\",\r\n    \"destination\":\"alexandria\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{base_url}}/users/3/bookings"
+			},
+			"response": []
+		}
+	]
+}

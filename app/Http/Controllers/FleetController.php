@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\BookTripSeat;
 use App\Http\Requests\ListTripSeat;
-use App\Http\Resources\BookedSeatResource;
 use App\Http\Resources\TripSeatResource;
 use App\Http\Services\FleetService;
 use App\Models\Seat;
@@ -86,9 +85,10 @@ class FleetController extends Controller
             ->where('id', $validated['seat'])
             ->first();
 
-        return new BookedSeatResource(
-            $this->fleetService
-                ->bookTrip($trip, $seat, $source, $destination)
-        );
+        return
+            response()->json(
+                $this->fleetService->bookTrip($trip, $seat, $source, $destination),
+                201
+            );
     }
 }
